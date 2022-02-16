@@ -150,9 +150,9 @@ export const changeStake = createAsyncThunk(
     }
 
     const signer = provider.getSigner();
-
+    console.log("signer", signer);
     const staking = OlympusStaking__factory.connect(addresses[networkID].STAKING_ADDRESS, signer);
-
+    console.log("staking", staking);
     const stakingHelper = new ethers.Contract(
       addresses[networkID].STAKING_HELPER_ADDRESS as string,
       StakingHelperABI,
@@ -160,7 +160,7 @@ export const changeStake = createAsyncThunk(
     ) as StakingHelper;
 
     const stakingV2 = OlympusStakingv2__factory.connect(addresses[networkID].STAKING_V2, signer);
-
+    console.log("stakingV2", stakingV2);
     let stakeTx;
     const uaData: IUAData = {
       address: address,
@@ -170,6 +170,7 @@ export const changeStake = createAsyncThunk(
       type: "",
     };
     try {
+      console.log("gfhsdsdfdsf", rebase);
       if (version2) {
         const rebasing = true; // when true stake into sOHM
         if (action === "stake") {
@@ -179,7 +180,9 @@ export const changeStake = createAsyncThunk(
           stakeTx = rebase
             ? await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), true, true)
             : await stakingV2.stake(address, ethers.utils.parseUnits(value, "gwei"), false, true);
+          console.log("action stake inside if", stakeTx);
         } else {
+          console.log("action stake inside if tgf ", stakeTx);
           uaData.type = "unstake";
           // 3rd arg is trigger default to true for mainnet and false for rinkeby
           // 4th arg is rebasing
@@ -191,6 +194,7 @@ export const changeStake = createAsyncThunk(
         if (action === "stake") {
           uaData.type = "stake";
           stakeTx = await stakingHelper.stake(ethers.utils.parseUnits(value, "gwei"));
+          console.log("stakeTx", stakeTx);
         } else {
           uaData.type = "unstake";
           stakeTx = await staking.unstake(ethers.utils.parseUnits(value, "gwei"), true);

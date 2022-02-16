@@ -171,9 +171,10 @@ const Stake: React.FC = () => {
       // eslint-disable-next-line no-alert
       return dispatch(error(t`Please enter a value!`));
     }
-
     // 1st catch if quantity > balance
     const gweiValue = ethers.utils.parseUnits(quantity.toString(), "gwei");
+    const ohmGwei = ethers.utils.parseUnits(ohmBalance, "gwei");
+    console.log("ghgd", Number(ohmGwei));
     if (action === "stake" && gweiValue.gt(ethers.utils.parseUnits(ohmBalance, "gwei"))) {
       return dispatch(error(t`You cannot stake more than your OHM balance.`));
     }

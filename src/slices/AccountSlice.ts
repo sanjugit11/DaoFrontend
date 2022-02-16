@@ -89,7 +89,6 @@ export const getBalances = createAsyncThunk(
     let fgohmBalance = BigNumber.from(0);
     let fgOHMAsfsOHMBalance = BigNumber.from(0);
     let fiatDaowsohmBalance = BigNumber.from("0");
-
     const gOhmContract = GOHM__factory.connect(addresses[networkID].GOHM_ADDRESS, provider);
     try {
       gOhmBalance = await gOhmContract.balanceOf(address);
@@ -151,6 +150,7 @@ export const getBalances = createAsyncThunk(
         provider,
       ) as IERC20;
       ohmBalance = await ohmContract.balanceOf(address);
+      console.log("ohmBalance ohm contrcat", Number(ohmBalance));
     } catch (e) {
       handleContractError(e);
     }
