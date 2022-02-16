@@ -8,6 +8,13 @@ import Web3Modal from "web3modal";
 
 import { NETWORKS } from "../constants";
 
+// change network id here
+const DEF_NETWORK_ID = 4;
+function setNetworkId_new(cb: any) {
+  //cb(networkHash.networkId);
+  cb(4);
+}
+
 /**
  * determine if in IFrame for Ledger Live
  */
@@ -81,7 +88,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
   // NOTE (appleseed): loading eth mainnet as default rpc provider for a non-connected wallet
   const [provider, setProvider] = useState<JsonRpcProvider>(NodeHelper.getMainnetStaticProvider());
-  const [networkId, setNetworkId] = useState(1);
+  const [networkId, setNetworkId] = useState(DEF_NETWORK_ID);
   const [networkName, setNetworkName] = useState("");
   const [providerUri, setProviderUri] = useState("");
   const [providerInitialized, setProviderInitialized] = useState(false);
@@ -113,7 +120,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
           // then provider is out of sync, reload per metamask recommendation
           setTimeout(() => window.location.reload(), 1);
         } else {
-          setNetworkId(networkHash.networkId);
+          setNetworkId_new(setNetworkId);
         }
       });
     },
