@@ -10,7 +10,7 @@ const app_node = spawn("npx", [
   "hardhat",
   "node",
   "--fork",
-  "https://eth-mainnet.alchemyapi.io/v2/_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC",
+  "https://rinkeby.infura.io/v3/f78963adab4848e0a93803a88059c6df",
   "--fork-block-number",
   FORK_BLOCK,
   "--hostname",

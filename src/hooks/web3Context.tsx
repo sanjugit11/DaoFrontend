@@ -60,6 +60,7 @@ export const useWeb3Context = () => {
 
 export const useAddress = () => {
   const { address } = useWeb3Context();
+  console.log("from useWeb3Context address", address);
   return address;
 };
 

@@ -90,7 +90,9 @@ const BondV2 = ({ index }: { index: number }) => {
         >
           <>
             <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-              <Typography>{bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`}</Typography>
+              <Typography>
+                {(console.log("bond.fixedTerm", bond.fixedTerm), bond.fixedTerm ? t`Fixed Term` : t`Fixed Expiration`)}
+              </Typography>
               <Typography style={{ marginTop: "3px" }}>
                 {bond.fixedTerm ? `${bond.duration}` : `${bond.expiration}`}
               </Typography>
@@ -117,7 +119,10 @@ const BondV2 = ({ index }: { index: number }) => {
                   <Trans>Market Price</Trans>
                 </Typography>
                 <Typography variant="h3" color="primary" className="price">
-                  {isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2)}
+                  {
+                    (console.log("isBondLoading ", isBondLoading),
+                    isBondLoading ? <Skeleton /> : formatCurrency(bond.marketPrice, 2))
+                  }
                 </Typography>
               </div>
             </Box>

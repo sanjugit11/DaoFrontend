@@ -27,6 +27,7 @@ function BondPurchase({
 }) {
   const SECONDS_TO_REFRESH = 60;
   const dispatch = useDispatch<AppDispatch>();
+  // console.log("useWeb3Context address", useWeb3Context);
   const { provider, address, networkId } = useWeb3Context();
   const currentIndex = useAppSelector(state => {
     return state.app.currentIndex ?? "1";
@@ -120,69 +121,75 @@ function BondPurchase({
   return (
     <Box display="flex" flexDirection="column">
       <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-        {!address ? (
-          <ConnectButton />
-        ) : (
-          <>
-            {isAllowanceDataLoading ? (
-              <Skeleton width="200px" />
-            ) : (
-              <>
-                {!hasAllowance() ? (
-                  <div className="help-text">
-                    <em>
-                      <Typography variant="body1" align="center" color="textSecondary">
-                        <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
-                        <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
-                        <Trans>for bonding</Trans>.
-                      </Typography>
-                    </em>
-                  </div>
-                ) : (
-                  <FormControl className="ohm-input" fullWidth>
-                    <Input
-                      endString={t`Max`}
-                      id="outlined-adornment-amount"
-                      type="number"
-                      value={quantity}
-                      onChange={e => setQuantity(e.target.value)}
-                      label={t`Amount`}
-                      endStringOnClick={setMax}
-                      labelWidth={55}
-                    />
-                  </FormControl>
-                )}
-                {bond.soldOut ? (
-                  <PrimaryButton id="bond-btn" className="transaction-button" disabled={true}>
-                    <Trans>Sold Out</Trans>
-                  </PrimaryButton>
-                ) : balance ? (
-                  hasAllowance() ? (
-                    <PrimaryButton
-                      id="bond-btn"
-                      className="transaction-button"
-                      disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
-                      onClick={onBond}
-                    >
-                      {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
-                    </PrimaryButton>
+        {
+          (console.log("address", address),
+          !address ? (
+            <ConnectButton />
+          ) : (
+            <>
+              {isAllowanceDataLoading ? (
+                <Skeleton width="200px" />
+              ) : (
+                <>
+                  {!hasAllowance() ? (
+                    <div className="help-text">
+                      <em>
+                        <Typography variant="body1" align="center" color="textSecondary">
+                          <Trans>First time bonding</Trans> <b>{bond.displayName}</b>? <br />{" "}
+                          <Trans>Please approve Olympus Dao to use your</Trans> <b>{bond.displayName}</b>{" "}
+                          <Trans>for bonding</Trans>.
+                        </Typography>
+                      </em>
+                    </div>
                   ) : (
-                    <PrimaryButton
-                      id="bond-approve-btn"
-                      className="transaction-button"
-                      disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
-                      onClick={onSeekApproval}
-                    >
-                      {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
-                    </PrimaryButton>
-                  )
-                ) : (
-                  <Skeleton width="300px" height={40} />
-                )}
-              </>
-            )}{" "}
-          </>
-        )}
+                    <FormControl className="ohm-input" fullWidth>
+                      <Input
+                        endString={t`Max`}
+                        id="outlined-adornment-amount"
+                        type="number"
+                        value={quantity}
+                        onChange={e => setQuantity(e.target.value)}
+                        label={t`Amount`}
+                        endStringOnClick={setMax}
+                        labelWidth={55}
+                      />
+                    </FormControl>
+                  )}
+                  {
+                    (console.log("bond.soldOut", bond.soldOut),
+                    bond.soldOut ? (
+                      <PrimaryButton id="bond-btn" className="transaction-button" disabled={true}>
+                        <Trans>Sold Out</Trans>
+                      </PrimaryButton>
+                    ) : balance ? (
+                      hasAllowance() ? (
+                        <PrimaryButton
+                          id="bond-btn"
+                          className="transaction-button"
+                          disabled={isPendingTxn(pendingTransactions, "bond_" + bond.displayName)}
+                          onClick={onBond}
+                        >
+                          {txnButtonText(pendingTransactions, "bond_" + bond.displayName, "Bond")}
+                        </PrimaryButton>
+                      ) : (
+                        <PrimaryButton
+                          id="bond-approve-btn"
+                          className="transaction-button"
+                          disabled={isPendingTxn(pendingTransactions, `approve_${bond.displayName}_bonding`)}
+                          onClick={onSeekApproval}
+                        >
+                          {txnButtonText(pendingTransactions, `approve_${bond.displayName}_bonding`, "Approve")}
+                        </PrimaryButton>
+                      )
+                    ) : (
+                      <Skeleton width="300px" height={40} />
+                    ))
+                  }
+                </>
+              )}{" "}
+            </>
+          ))
+        }
       </Box>
 
       <Slide direction="left" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>

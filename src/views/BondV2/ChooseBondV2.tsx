@@ -94,7 +94,7 @@ function ChooseBondV2() {
             />
           </MetricCollection>
 
-          {bondsV2.length == 0 && !isBondsLoading && (
+          {bondsV2.length && !isBondsLoading && (
             <Box display="flex" justifyContent="center" marginY="24px">
               <Typography variant="h4">No active bonds</Typography>
             </Box>

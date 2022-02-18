@@ -1,0 +1,27 @@
+staking
+STAKING_V2
+
+Approval =>
+MOCK_GIVING_ADDRESS
+MOCK_SOHM
+
+
+unstaking 
+STAKING_ADDRESS
+
+
+depositoryContract.deposit(
+        bond.index,
+        amount,
+        maxPrice,
+        address,
+        addresses[networkID].DAO_TREASURY,
+      )
+
+bond
+bondv2
+bondpurchase.tsx
+bondslicev2.ts
+bondslice
+choosebondV2
+depositoryContract

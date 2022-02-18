@@ -180,6 +180,8 @@ const Stake: React.FC = () => {
     }
 
     if (confirmation === false && action === "unstake" && gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"))) {
+      const gweiVlaueToUnStake = gweiValue.gt(ethers.utils.parseUnits(sohmBalance, "gwei"));
+      console.log("unstake gweiVlaueToUnStake", gweiVlaueToUnStake);
       return dispatch(
         error(
           t`You do not have enough sOHM to complete this transaction.  To unstake from gOHM, please toggle the sohm-gohm switch.`,

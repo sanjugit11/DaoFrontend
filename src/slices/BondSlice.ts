@@ -39,7 +39,6 @@ export const changeApproval = createAsyncThunk(
       dispatch(calculateUserBondDetails({ address, bond, networkID, provider }));
       return;
     }
-
     try {
       approveTx = await reserveContract.approve(
         bondAddr || "",
@@ -202,6 +201,7 @@ export const bondAsset = createAsyncThunk(
   "bonding/bondAsset",
   async ({ value, address, bond, networkID, provider, slippage }: IBondAssetAsyncThunk, { dispatch }) => {
     const depositorAddress = address;
+    console.log("depositorAddress", depositorAddress);
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     // parseUnits takes String => BigNumber
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
@@ -210,9 +210,11 @@ export const bondAsset = createAsyncThunk(
     // const calculatePremium = await bonding.calculatePremium();
     const signer = provider.getSigner();
     const bondContract = bond.getContractForBond(networkID, signer);
+    console.log("bondContract", bondContract);
     const calculatePremium = await bondContract.bondPrice();
+    console.log("calculatePremium", calculatePremium);
     const maxPremium = Math.round(Number(calculatePremium.toString()) * (1 + acceptedSlippage));
-
+    console.log("maxPremium", maxPremium);
     // Deposit the bond
     let bondTx;
     const uaData = {
@@ -224,7 +226,9 @@ export const bondAsset = createAsyncThunk(
       txHash: "",
     };
     try {
+      console.log("inside try");
       bondTx = await bondContract.deposit(valueInWei, maxPremium, depositorAddress);
+      console.log("bondTx", bondTx);
       dispatch(
         fetchPendingTxns({ txnHash: bondTx.hash, text: "Bonding " + bond.displayName, type: "bond_" + bond.name }),
       );

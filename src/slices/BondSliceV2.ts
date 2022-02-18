@@ -149,11 +149,18 @@ export const purchaseBond = createAsyncThunk(
   "bondsV2/purchase",
   async ({ provider, address, bond, networkID, amount, maxPrice }: IBondV2PurchaseAsyncThunk, { dispatch }) => {
     checkNetwork(networkID);
+    const newObj = { provider, address, bond, networkID, amount, maxPrice };
     const signer = provider.getSigner();
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
-
+    console.log("depositoryContract", depositoryContract, newObj);
     let depositTx: ethers.ContractTransaction | undefined;
     try {
+      console.log("bond.index", bond.index);
+      console.log("amount", Number(amount));
+      console.log("maxPrice", Number(maxPrice));
+      console.log("address", address);
+      console.log("addresses[neDAO_TREASURY", addresses[networkID].DAO_TREASURY);
+      console.trace("tracing upwards");
       depositTx = await depositoryContract.deposit(
         bond.index,
         amount,
@@ -161,9 +168,11 @@ export const purchaseBond = createAsyncThunk(
         address,
         addresses[networkID].DAO_TREASURY,
       );
+      console.log("depositTx in try", depositTx);
       const text = `Purchase ${bond.displayName} Bond`;
       const pendingTxnType = `bond_${bond.displayName}`;
       if (depositTx) {
+        console.log("depositTx in if", depositTx);
         dispatch(fetchPendingTxns({ txnHash: depositTx.hash, text, type: pendingTxnType }));
         await depositTx.wait();
         dispatch(clearPendingTxn(depositTx.hash));
@@ -189,6 +198,7 @@ export const getSingleBond = createAsyncThunk(
     const bondCore = await depositoryContract.markets(bondIndex);
     const bondMetadata = await depositoryContract.metadata(bondIndex);
     const bondTerms = await depositoryContract.terms(bondIndex);
+    console.log("bondCore, bondMetadata, bondTerms", bondCore, bondMetadata, bondTerms);
     return processBond(bondCore, bondMetadata, bondTerms, bondIndex, provider, networkID, dispatch);
   },
 );
@@ -305,6 +315,8 @@ export const getAllBonds = createAsyncThunk(
     checkNetwork(networkID);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const liveBondIndexes = await depositoryContract.liveMarkets();
+    console.log("liveBondIndexes", liveBondIndexes);
+    // console.trace("tracing call to liveMarkets. Address:", depositoryContract.address);
     // `markets()` returns quote/price data
     const liveBondPromises = liveBondIndexes.map(async index => await depositoryContract.markets(index));
     const liveBondMetadataPromises = liveBondIndexes.map(async index => await depositoryContract.metadata(index));
@@ -339,6 +351,7 @@ export const getUserNotes = createAsyncThunk(
     const currentTime = Date.now() / 1000;
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
     const userNoteIndexes = await depositoryContract.indexesFor(address);
+    console.log("userNoteIndexes", userNoteIndexes);
     const userNotePromises = userNoteIndexes.map(async index => await depositoryContract.notes(address, index));
     const userNotes: {
       payout: ethers.BigNumber;

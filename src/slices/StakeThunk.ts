@@ -172,9 +172,11 @@ export const changeStake = createAsyncThunk(
     try {
       console.log("gfhsdsdfdsf", rebase);
       if (version2) {
+        console.log("version2", version2);
         const rebasing = true; // when true stake into sOHM
         if (action === "stake") {
           uaData.type = "stake";
+          console.log("uaData", uaData);
           // 3rd arg is rebase
           // 4th argument is claim default to true
           stakeTx = rebase

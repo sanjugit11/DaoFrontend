@@ -66,9 +66,9 @@ export class EnvHelper {
         ) {
           ALCHEMY_ID_LIST = EnvHelper.env.REACT_APP_ETHEREUM_ALCHEMY_IDS.split(EnvHelper.whitespaceRegex);
         } else {
-          ALCHEMY_ID_LIST = ["_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC"];
+          ALCHEMY_ID_LIST = ["f78963adab4848e0a93803a88059c6df"];
         }
-        uriPath = "https://eth-mainnet.alchemyapi.io/v2/";
+        uriPath = "https://rinkeby.infura.io/v3/";
         break;
       case NetworkId.TESTNET_RINKEBY:
         if (
