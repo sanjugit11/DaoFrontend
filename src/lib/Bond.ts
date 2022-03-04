@@ -105,6 +105,7 @@ export abstract class Bond {
   }
 
   getAddressForReserve(NetworkId: NetworkId) {
+    console.log("netwrok id euywuew", this.networkAddrs[NetworkId]?.reserveAddress);
     return this.networkAddrs[NetworkId]?.reserveAddress;
   }
   getContractForReserve(NetworkId: NetworkId, provider: StaticJsonRpcProvider | JsonRpcSigner) {

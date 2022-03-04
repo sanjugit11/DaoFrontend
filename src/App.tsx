@@ -95,7 +95,6 @@ function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const { address, connect, hasCachedProvider, provider, connected, networkId, providerInitialized } = useWeb3Context();
-
   const [migrationModalOpen, setMigrationModalOpen] = useState(false);
   const migModalClose = () => {
     dispatch(loadAccountDetails({ networkID: networkId, address, provider }));

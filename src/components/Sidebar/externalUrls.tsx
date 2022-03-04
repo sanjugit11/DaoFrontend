@@ -10,6 +10,7 @@ export interface ExternalUrl {
 const externalUrls: ExternalUrl[] = [
   {
     title: <Trans>Forum</Trans>,
+    // url: "",
     url: "https://forum.olympusdao.finance/",
     icon: "forum",
   },

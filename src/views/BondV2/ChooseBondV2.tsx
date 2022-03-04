@@ -47,7 +47,8 @@ function ChooseBondV2() {
   });
 
   const treasuryBalance = useAppSelector(state => state.app.treasuryMarketValue);
-
+  // return state.app.treasuryMarketValue
+  console.log(treasuryBalance, "treasuryBalance");
   const isBondsLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const formattedTreasuryBalance = new Intl.NumberFormat("en-US", {
@@ -74,7 +75,6 @@ function ChooseBondV2() {
     }
     return withInterestDue;
   });
-
   return (
     <div id="choose-bond-view">
       {(!isEmpty(accountNotes) || !isEmpty(v1AccountBonds)) && <ClaimBonds activeNotes={accountNotes} />}
@@ -93,8 +93,8 @@ function ChooseBondV2() {
               isLoading={marketPrice ? false : true}
             />
           </MetricCollection>
-
-          {bondsV2.length && !isBondsLoading && (
+          {console.log(bondsV2.length, "bondsV2.length")}
+          {bondsV2.length == 0 && !isBondsLoading && (
             <Box display="flex" justifyContent="center" marginY="24px">
               <Typography variant="h4">No active bonds</Typography>
             </Box>

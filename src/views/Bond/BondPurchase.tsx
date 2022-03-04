@@ -186,44 +186,41 @@ function BondPurchase({ bond, slippage, recipientAddress }: IBondPurchaseProps) 
                     />
                   </FormControl>
                 )}
-                {
-                  (console.log("bond.isBondable", bond.isBondable),
-                  !bond.isBondable[networkId as NetworkId] ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="bond-btn"
-                      className="transaction-button"
-                      disabled={true}
-                    >
-                      {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
-                      {/* <Trans>Sold Out</Trans> */}
-                      {bond.LOLmessage}
-                    </Button>
-                  ) : hasAllowance() ? (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="bond-btn"
-                      className="transaction-button"
-                      disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
-                      onClick={onBond}
-                    >
-                      {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond (v1)")}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      id="bond-approve-btn"
-                      className="transaction-button"
-                      disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
-                      onClick={onSeekApproval}
-                    >
-                      {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
-                    </Button>
-                  ))
-                }
+                {!bond.isBondable[networkId as NetworkId] ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={true}
+                  >
+                    {/* NOTE (appleseed): temporary for ONHOLD MIGRATION */}
+                    {/* <Trans>Sold Out</Trans> */}
+                    {bond.LOLmessage}
+                  </Button>
+                ) : hasAllowance() ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "bond_" + bond.name)}
+                    onClick={onBond}
+                  >
+                    {txnButtonText(pendingTransactions, "bond_" + bond.name, "Bond (v1)")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    id="bond-approve-btn"
+                    className="transaction-button"
+                    disabled={isPendingTxn(pendingTransactions, "approve_" + bond.name)}
+                    onClick={onSeekApproval}
+                  >
+                    {txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}
+                  </Button>
+                )}
               </>
             )}{" "}
           </>

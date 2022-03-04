@@ -34,7 +34,6 @@ export const MarketCap = () => {
 
 export const OHMPrice = () => {
   const { data: ohmPrice } = useOhmPrice();
-
   const props: MetricProps = {
     ...sharedProps,
     label: t`OHM Price`,

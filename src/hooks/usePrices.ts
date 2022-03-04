@@ -13,6 +13,7 @@ export const ohmPriceQueryKey = () => ["useOhmPrice"];
  */
 export const useOhmPrice = () => {
   const reserveContract = useOhmDaiReserveContract();
+  console.log("reserveContract", reserveContract);
 
   return useQuery<number, Error>(ohmPriceQueryKey(), async () => {
     const [ohm, dai] = await reserveContract.getReserves();

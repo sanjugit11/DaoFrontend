@@ -4,7 +4,11 @@ declare module "*.svg";
 
 declare global {
   interface CustomWindow extends Window {
+<<<<<<< HEAD
     console: any;
+=======
+    console:any;
+>>>>>>> origin/bonding_25feb
     analytics: any;
   }
 

@@ -142,7 +142,7 @@ export const UnknownDetails: V2BondDetails = {
  */
 export const v2BondDetails: { [key: number]: { [key: string]: V2BondDetails } } = {
   [NetworkId.TESTNET_RINKEBY]: {
-    ["0x4080A9D0181bb5D8A45A1395e01C1F01eED73131"]: DaiDetails,
+    ["0xc71f497c869b3c8d25b9a2df9489c1b9cf94f9c5"]: DaiDetails,
     ["0x5ed8bd53b0c3fa3deabd345430b1a3a6a4e8bd7c"]: DaiDetails,
     ["0x53e28f06CC50EAb9621e031Ca1Db19F19D3e1173"]: FraxDetails,
     ["0xc778417e063141139fce010982780140aa0cd5ab"]: EthDetails,

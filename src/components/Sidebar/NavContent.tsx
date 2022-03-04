@@ -136,23 +136,23 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                   {/* NOTE (appleseed-olyzaps): OlyZaps disabled until v2 contracts */}
                   <NavItem to="/zap" icon="zap" label={t`Zap`} />
 
-                  {EnvHelper.isGiveEnabled(location.search) && (
+                  {/* {EnvHelper.isGiveEnabled(location.search) && (
                     <NavItem to="/give" icon="give" label={t`Give`} chip={t`New`} />
-                  )}
+                  )} */}
                   <NavItem to="/wrap" icon="wrap" label={t`Wrap`} />
-                  <NavItem
+                  {/* <NavItem
                     href={"https://synapseprotocol.com/?inputCurrency=gOHM&outputCurrency=gOHM&outputChain=43114"}
                     icon="bridge"
                     label={t`Bridge`}
-                  />
-                  <Box className="menu-divider">
+                  /> */}
+                  {/* <Box className="menu-divider">
                     <Divider />
-                  </Box>
-                  <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} />
+                  </Box> */}
+                  {/* <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} /> */}
                   {/* <NavItem to="/33-together" icon="33-together" label={t`3,3 Together`} /> */}
-                  <Box className="menu-divider">
+                  {/* <Box className="menu-divider">
                     <Divider />
-                  </Box>
+                  </Box> */}
                 </>
               ) : (
                 <>
@@ -165,14 +165,14 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle }) => {
                 </>
               )}
               {}
-              {Object.keys(externalUrls).map((link: any, i: number) => (
+              {/* {Object.keys(externalUrls).map((link: any, i: number) => (
                 <NavItem
                   key={i}
                   href={`${externalUrls[link].url}`}
                   icon={externalUrls[link].icon as any}
                   label={externalUrls[link].title as any}
                 />
-              ))}
+              ))} */}
             </div>
           </div>
         </div>

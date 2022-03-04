@@ -33,15 +33,16 @@ function BondPurchase({
     return state.app.currentIndex ?? "1";
   });
 
+  // const state = useAppSelector(state => state);
+  // console.log("state", state);
   const [quantity, setQuantity] = useState("");
   const [secondsToRefresh, setSecondsToRefresh] = useState(SECONDS_TO_REFRESH);
 
   const isBondLoading = useAppSelector(state => state.bondingV2.loading ?? true);
 
   const balance = useAppSelector(state => state.bondingV2.balances[bond.quoteToken]);
-
   const maxBondable = +bond.maxPayoutOrCapacityInQuote;
-
+  console.log("bond bond.maxPayoutOrCapacityInQuote maxBondable", bond, bond.maxPayoutOrCapacityInQuote, maxBondable);
   const balanceNumber: number = useMemo(
     () => (balance ? +balance.balance / Math.pow(10, bond.quoteDecimals) : 0),
     [balance],
@@ -52,6 +53,8 @@ function BondPurchase({
   });
 
   async function onBond() {
+    console.log("sohm DAI", bond.maxPayoutOrCapacityInBase, maxBondable);
+
     if (quantity === "" || Number(quantity) <= 0) {
       dispatch(error(t`Please enter a value!`));
     } else if (Number(quantity) > maxBondable) {
@@ -90,8 +93,10 @@ function BondPurchase({
     const maxBondableNumber = maxBondable * 0.999;
     if (balanceNumber > maxBondableNumber) {
       maxQ = maxBondableNumber.toString();
+      console.log("maxQ inside if ", maxQ);
     } else {
       maxQ = ethers.utils.formatUnits(balance.balance, bond.quoteDecimals);
+      console.log("maxQ inside else", maxQ);
     }
     setQuantity(maxQ);
   };
@@ -156,7 +161,7 @@ function BondPurchase({
                     </FormControl>
                   )}
                   {
-                    (console.log("bond.soldOut", bond.soldOut),
+                    (console.log("Number(quantity)", Number(quantity), bond.priceToken, bond),
                     bond.soldOut ? (
                       <PrimaryButton id="bond-btn" className="transaction-button" disabled={true}>
                         <Trans>Sold Out</Trans>

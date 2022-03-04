@@ -151,8 +151,9 @@ export const purchaseBond = createAsyncThunk(
     checkNetwork(networkID);
     const newObj = { provider, address, bond, networkID, amount, maxPrice };
     const signer = provider.getSigner();
+    console.log("signer", signer);
     const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, signer);
-    console.log("depositoryContract", depositoryContract, newObj);
+    console.log("depositoryContract", depositoryContract);
     let depositTx: ethers.ContractTransaction | undefined;
     try {
       console.log("bond.index", bond.index);
@@ -160,7 +161,6 @@ export const purchaseBond = createAsyncThunk(
       console.log("maxPrice", Number(maxPrice));
       console.log("address", address);
       console.log("addresses[neDAO_TREASURY", addresses[networkID].DAO_TREASURY);
-      console.trace("tracing upwards");
       depositTx = await depositoryContract.deposit(
         bond.index,
         amount,
@@ -226,18 +226,22 @@ async function processBond(
   const currentTime = Date.now() / 1000;
   const depositoryContract = BondDepository__factory.connect(addresses[networkID].BOND_DEPOSITORY, provider);
   let v2BondDetail: V2BondDetails = v2BondDetails[networkID][bond.quoteToken.toLowerCase()];
-
   if (!v2BondDetail) {
     v2BondDetail = UnknownDetails;
     console.error(`Add details for bond index=${index}`);
   }
   const quoteTokenPrice = await v2BondDetail.pricingFunction(provider, bond.quoteToken);
+  console.log("quoteTokenPrice", quoteTokenPrice);
   const bondPriceBigNumber = await depositoryContract.marketPrice(index);
+  console.log("bondPriceBigNumber", Number(bondPriceBigNumber));
   const bondPrice = +bondPriceBigNumber / Math.pow(10, BASE_TOKEN_DECIMALS);
+  console.log("bondPrice", bondPrice);
   const bondPriceUSD = quoteTokenPrice * +bondPrice;
+  console.log("bondPriceUSD", bondPriceUSD);
   const ohmPrice = (await dispatch(findOrLoadMarketPrice({ provider, networkID })).unwrap())?.marketPrice;
   const bondDiscount = (ohmPrice - bondPriceUSD) / ohmPrice;
-
+  console.log("ohmPrice", ohmPrice);
+  console.log("bondDiscount", bondDiscount);
   let capacityInBaseToken: string, capacityInQuoteToken: string;
   if (bond.capacityInQuote) {
     capacityInBaseToken = ethers.utils.formatUnits(
@@ -247,21 +251,26 @@ async function processBond(
     capacityInQuoteToken = ethers.utils.formatUnits(bond.capacity, metadata.quoteDecimals);
   } else {
     capacityInBaseToken = ethers.utils.formatUnits(bond.capacity, BASE_TOKEN_DECIMALS);
+    console.log("bond.capacity metadata.quoteDecimals", bond.capacity, metadata.quoteDecimals);
+    console.log("capacityInBaseToken", capacityInBaseToken);
     capacityInQuoteToken = ethers.utils.formatUnits(
       bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
       metadata.quoteDecimals,
     );
+    console.log("capacityInQuoteToken", capacityInQuoteToken);
   }
   const maxPayoutInBaseToken: string = ethers.utils.formatUnits(bond.maxPayout, BASE_TOKEN_DECIMALS);
   const maxPayoutInQuoteToken: string = ethers.utils.formatUnits(
     bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
     metadata.quoteDecimals,
   );
+  console.log("maxPayoutInQuoteToken", maxPayoutInQuoteToken);
 
   let seconds = 0;
   if (terms.fixedTerm) {
     const vestingTime = currentTime + terms.vesting;
     seconds = vestingTime - currentTime;
+    console.log("vestingTime  currentTime  seconds terms", vestingTime, currentTime, seconds);
   } else {
     const conclusionTime = terms.conclusion;
     seconds = conclusionTime - currentTime;
@@ -272,10 +281,10 @@ async function processBond(
   } else {
     duration = prettifySeconds(seconds);
   }
-
   // SAFETY CHECKs
   // 1. check sold out
   let soldOut = false;
+  console.log(capacityInBaseToken, maxPayoutInBaseToken, "maxPayoutInBaseToken");
   if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
   const maxPayoutOrCapacityInQuote =
     +capacityInQuoteToken > +maxPayoutInQuoteToken ? maxPayoutInQuoteToken : capacityInQuoteToken;

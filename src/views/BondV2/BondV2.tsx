@@ -22,6 +22,7 @@ const BondV2 = ({ index }: { index: number }) => {
   const history = useHistory();
 
   const bond = useAppSelector(state => state.bondingV2.bonds[index]);
+  console.log("state", bond);
   const { provider, address, networkId } = useWeb3Context();
   usePathForNetwork({ pathName: "bonds", networkID: networkId, history });
 
