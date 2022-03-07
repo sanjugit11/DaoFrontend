@@ -1,0 +1,31 @@
+debt ratio
+id 7
+currentControlVariable(_id) * debtRatio(_id)) / (10**metadata[_id].quoteDecimals);
+  73023763466 *16027522159003074 /10**18
+  = 1170389987
+  
+  //max price calucaltion
+  capacityInQuoteToken = ethers.utils.formatUnits(
+      bond.capacity.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+      metadata.quoteDecimals,
+    );
+                         bond.capacity* bondPriceBigNumber /Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+  capacityInQuoteToken = 8886570920846×34819387044 * 10(POW)1
+  
+  			= 3.094249524×10²³    = 309344.774162756408206286
+   
+  	
+  maxPayoutInQuoteToken = 
+  	ethers.utils.formatUnits(
+    bond.maxPayout.mul(bondPriceBigNumber).div(Math.pow(10, 2 * BASE_TOKEN_DECIMALS - metadata.quoteDecimals)),
+    metadata.quoteDecimals,
+  );
+  
+maxPayoutInQuoteToken = 2000684302*34819387044
+           	       =  6.966260106×10¹⁹ = 69.644550084144565582
+           	       
+   /home/user/Ant_demo/olympus-frontend/src/slices/BondSliceV2.ts
+   
+     if (+capacityInBaseToken < 1 || +maxPayoutInBaseToken < 1) soldOut = true;
+  const maxPayoutOrCapacityInQuote =
+    +capacityInQuoteToken > +maxPayoutInQuoteToken ? maxPayoutInQuoteToken : capacityInQuoteToken;
